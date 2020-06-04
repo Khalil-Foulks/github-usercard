@@ -4,6 +4,21 @@
     https://api.github.com/users/<your name>
 */
 
+cards = document.querySelector('.cards')
+
+axios.get(`https://api.github.com/users/khalil-foulks`)
+.then(response =>{
+  console.log(response)
+
+  const gitCard = gitCardMaker(response.data)
+  cards.appendChild(gitCard)
+})
+.catch(error =>{
+  debugger
+  console.log('Error MSG:', error)
+})
+
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -49,6 +64,53 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function gitCardMaker(dataObj){
+  const {avatar_url, name, login, location, html_url, followers, following, bio} = dataObj
+
+  const card = document.createElement('div') ;
+  const image = document.createElement('img') ;
+  const cardInfo = document.createElement('div') ;
+  const realName = document.createElement('h3') ;
+  const username = document.createElement('p') ;
+  const locationGit = document.createElement('p') ;
+  const profile = document.createElement('p') ;
+  const address = document.createElement('a') ;
+  const followersGit = document.createElement('p') ;
+  const followingGit = document.createElement('p') ;
+  const bioGit = document.createElement('p') ;
+
+  card.appendChild(image)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(realName)
+  cardInfo.appendChild(username)
+  cardInfo.appendChild(locationGit)
+  cardInfo.appendChild(profile)
+  cardInfo.appendChild(followersGit)
+  cardInfo.appendChild(followingGit)
+  cardInfo.appendChild(bioGit)
+  profile.appendChild(address)
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  realName.classList.add('name')
+  username.classList.add('username')
+  
+  image.setAttribute("src", avatar_url)
+  address.setAttribute("href", html_url)
+  realName.textContent= `Name: ${name}`
+  username.textContent =`Username: ${login}`
+  locationGit.textContent = `Location: ${location}`
+  address.textContent = html_url 
+  followersGit.textContent = `Followers: ${followers}`
+  followingGit.textContent = `Following: ${following}`
+
+  return card;
+}
+
+//------------------Testing-------------------
+// const test = gitCardMaker('afsdaf','asfsadf','safasf','asfdasf','safasf','sadfasfasdf','asfasfasf','sadfsdfaf','asfasfasfsfas','safsdafasfdsaf','saffsafsadfasdfsafasfasfsafsafasfas')
+// console.log(test)
 
 /*
   List of LS Instructors Github username's:
